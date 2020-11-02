@@ -8,7 +8,7 @@ Purpose of this assignment was to build a weather dashboard which makes API call
 
 #### Browser
 
-https://njleoni.github.io/homework-weather-dashbord
+https://njleoni.github.io/homework-weather-dashboard/
 
 #### Github Repo
 
