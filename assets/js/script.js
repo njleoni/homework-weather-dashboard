@@ -13,17 +13,18 @@ var realFeelEl = document.createElement('h4');
 var windEl = document.createElement('h4');
 var uvEl = document.createElement('h4');
 var cities = [];
-console.log(cities);
-localStorage.setItem("cityStor",JSON.stringify(cities))
+
+// localStorage.setItem("cityStor",JSON.stringify(cities))
 
 // When form is submitted...
 citySearch.addEventListener("click", function(event) {
   event.preventDefault();
   var cityText = cityInput.value.trim();
   cities.push(cityText);
-  cityInput.value = "";
+  // cityInput.value = "";
   getweather(cityText);
   cityStorage (cityText);
+  renderCities();
 });
 
 
@@ -36,8 +37,7 @@ fetch(weatherURL)
   .then(function (data) {
     console.log(data);
     weatherIcon.setAttribute("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
-    weatherIcon.setAttribute("style", "width: 80px")
-    // weatherIcon.append(weatherIcon)    
+    weatherIcon.setAttribute("style", "width: 80px")    
     var cityEl = data.name;
     var dateEl = new Date(data.dt * 1000).toLocaleString();
     cityDateEl.textContent = cityEl + " (" + dateEl + ") ";
@@ -89,6 +89,7 @@ fetch(weatherURL)
       })
       .then(function (data) {
       console.log(data);
+      fiveDayCard.innerHTML = "";
 
       for (var i = 1; i < 6; i++) {
         var cardOutline = document.createElement("div");
@@ -127,28 +128,15 @@ fetch(weatherURL)
         });
   });
 };
-// renderWeather();
 
-// function renderWeather () {
-//   cityEl = document.createElement('h3');
-//   cityEl.textContent = cityName;
-//   weatherToday.appendChild(cityEl);
-// }
+function renderCities() {
+  // Clear cityList element and update cityCountSpan
+  localStorage.setItem("cityStor",JSON.stringify(cities));
+  cityList.innerHTML = "";
+  cityStorage();
 
-
-// cityList.innerHTML = "";
-
-// renderCities();
-cityStorage();
-
-// function renderCities() {
-//   // Clear cityList element and update cityCountSpan
-//   localStorage.setItem("cityStor",JSON.stringify(cities));
-//   cityList.innerHTML = "";
-
-// }
+}
       
-
 function cityStorage (cityText) {
   // cityList.innerHTML = "";
   var cityPush = JSON.parse(localStorage.getItem("cityStor"));
@@ -164,6 +152,7 @@ function cityStorage (cityText) {
       button.id = "button-city";
       button.setAttribute('data-index', c);     
       cityList.appendChild(button);
+      
 
   } 
       
