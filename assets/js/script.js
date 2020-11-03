@@ -12,17 +12,21 @@ var realFeelEl = document.createElement('h4');
 var windEl = document.createElement('h4');
 var uvEl = document.createElement('h4');
 var cities = [];
+console.log(cities);
+localStorage.setItem("cityStor",JSON.stringify(cities))
 
 // When form is submitted...
 citySearch.addEventListener("click", function(event) {
   event.preventDefault();
-  console.log("clicked");
   var cityText = cityInput.value.trim();
+  cities.push(cityText);
+  cityInput.value = "";
   getweather(cityText);
   cityStorage (cityText);
 });
-function getweather(cityText) {
 
+
+function getweather(cityText) {
 var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityText + "&APPID=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
 fetch(weatherURL)
   .then(function (response) {
@@ -30,8 +34,6 @@ fetch(weatherURL)
   })
   .then(function (data) {
     console.log(data);
-    //weather icon
-    // var weatherIcon = document.createElement("img");
     weatherIcon.setAttribute("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
     weatherIcon.setAttribute("style", "width: 80px")
     // weatherIcon.append(weatherIcon)    
@@ -79,17 +81,18 @@ fetch(weatherURL)
       }
     });
 
-      var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&exclude=hourly,minutely&units=imperial&appid=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
+      var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&cnt=5&units=imperial&appid=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
       fetch(fiveDayURL)
       .then(function (response) {
       return response.json();
       })
       .then(function (data) {
       console.log(data);
+      var fiveDay = data.list
 
-      for (var i = 0; i < 6; i++) {
-        
-      }
+      // for (var i = 0; i < data.list.length; i++) {
+      //   if 
+      // }
 
 
 
@@ -113,12 +116,12 @@ fetch(weatherURL)
 // renderCities();
 cityStorage();
 
-function renderCities() {
-  // Clear cityList element and update cityCountSpan
-  localStorage.setItem("cityStor",JSON.stringify(cities));
-  cityList.innerHTML = "";
+// function renderCities() {
+//   // Clear cityList element and update cityCountSpan
+//   localStorage.setItem("cityStor",JSON.stringify(cities));
+//   cityList.innerHTML = "";
 
-}
+// }
       
 
 function cityStorage (cityText) {
@@ -143,38 +146,38 @@ function cityStorage (cityText) {
   }
 }     
 
-cityButton.addEventListener("click", function(event) {
-  event.preventDefault();
-  getweather(cityText);
+// cityButton.addEventListener("click", function(event) {
+//   event.preventDefault();
+//   getweather(cityText);
 
 
-});
+// });
 
       
       // When form is submitted...
-citySearch.addEventListener("click", function(event) {
-  event.preventDefault();
-  console.log("clicked");
+// citySearch.addEventListener("click", function(event) {
+//   event.preventDefault();
+//   console.log("clicked");
   
 
-  var cityText = cityInput.value.trim();
-  // console.log(cityText);
+//   var cityText = cityInput.value.trim();
+//   // console.log(cityText);
 
-  // Return from function early if submitted cityText is blank
-  if (cityText === "") {
-    return;
-  }
+//   // Return from function early if submitted cityText is blank
+//   if (cityText === "") {
+//     return;
+//   }
 
-  // Add new city to cities array, clear the input
-  // cities.push(cityText);
-  cities.push(cityText);
-  cityInput.value = "";
+//   // Add new city to cities array, clear the input
+//   // cities.push(cityText);
+//   cities.push(cityText);
+//   cityInput.value = "";
 
-  // Re-render the list
-  renderCities();
-  cityStorage();
+//   // Re-render the list
+//   renderCities();
+//   cityStorage();
   
-});
+// });
 
 // When a element inside of the cityList is clicked...
 //search for this city's weather again.
