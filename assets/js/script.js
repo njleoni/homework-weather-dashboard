@@ -2,8 +2,14 @@ var cityInput = document.querySelector("#city-text");
 var citySearch = document.querySelector("#button-addon2");
 var cityButton = document.querySelector("#button-city");
 var cityList = document.querySelector("#city-list");
-var weatherToday = document.getElementById("#current-weather");
+var weatherToday = document.getElementById("current-weather");
 var cityName = document.getElementById("#city");
+var cityEl = document.createElement('h3');
+var dateEl = document.createElement('h4');
+var tempEl = document.createElement('h4');
+var humidityEl = document.createElement('h4');
+var realFeelEl = document.createElement('h4');
+var windEl = document.createElement('h4');
 // var lastCity = cityInput;
 // console.log(lastCity);
 var cities = [];
@@ -18,31 +24,36 @@ citySearch.addEventListener("click", function(event) {
 });
 function getweather(cityText) {
 
-
-fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityText +'&APPID=b9e68eb5875c33cf7f524dde6562b60d&units=imperial')
+var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityText + "&APPID=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
+fetch(weatherURL)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
     console.log(data);
-    console.log(data.name);
-    var cityEl = document.getElementById("#city");
-    cityEl.innerHTML = data.name;
+    cityEl.textContent = data.name;
+    weatherToday.append(cityEl);
+    // dateEl.textContent = (data.dt * 1000).toLocaleString();
+    // weatherToday.append(dateEl);
+    tempEl.textContent = "Temperature " + data.main.temp;
+    weatherToday.append(tempEl);
+    humidityEl.textContent = "Humidity " + data.main.humidity + "%";
+    weatherToday.append(humidityEl);
+    realFeelEl.textContent = "Real Feel " + data.main.feels_like;
+    weatherToday.append(realFeelEl);
+    windEl.textContent = "Wind Speed " + data.wind.speed;
+    weatherToday.append(windEl);
 
-    // var cityName = data.name;
-    // console.log(data.name);
-    // var temp = data.main.temp;
-    // console.log(temp);
-    // var realFeel = data.main.feels_like;
-    // console.log(realFeel);
-    // var humidity = data.main.humidity;
-    // console.log(humidity);
-    // var lat = data.coord.lat;
-    // console.log(lat);
-    // var lon = data.coord.lon;
-    // console.log(lon);
-    // var dt = data.dt;
-    // console.log(dt);
+
+    var lat = data.coord.lat;
+    var lon = data.coord.lon;
+
+
+
+
+
+
+
   });
 };
 // renderWeather();
