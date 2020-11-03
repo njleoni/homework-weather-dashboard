@@ -4,14 +4,13 @@ var cityButton = document.querySelector("#button-city");
 var cityList = document.querySelector("#city-list");
 var weatherToday = document.getElementById("current-weather");
 var cityName = document.getElementById("#city");
-var cityEl = document.createElement('h3');
-var dateEl = document.createElement('h4');
+var weatherIcon = document.getElementById("icon");
+var cityDateEl = document.createElement('h4');
 var tempEl = document.createElement('h4');
 var humidityEl = document.createElement('h4');
 var realFeelEl = document.createElement('h4');
 var windEl = document.createElement('h4');
-// var lastCity = cityInput;
-// console.log(lastCity);
+var uvEl = document.createElement('h4');
 var cities = [];
 
 // When form is submitted...
@@ -31,29 +30,73 @@ fetch(weatherURL)
   })
   .then(function (data) {
     console.log(data);
-    cityEl.textContent = data.name;
-    weatherToday.append(cityEl);
-    // dateEl.textContent = (data.dt * 1000).toLocaleString();
-    // weatherToday.append(dateEl);
-    tempEl.textContent = "Temperature " + data.main.temp;
+    //weather icon
+    // var weatherIcon = document.createElement("img");
+    weatherIcon.setAttribute("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
+    weatherIcon.setAttribute("style", "width: 80px")
+    // weatherIcon.append(weatherIcon)    
+    var cityEl = data.name;
+    var dateEl = new Date(data.dt * 1000).toLocaleString();
+    cityDateEl.textContent = cityEl + " (" + dateEl + ") ";
+    weatherToday.append(cityDateEl);
+    tempEl.textContent = "Temperature: " + data.main.temp;
     weatherToday.append(tempEl);
-    humidityEl.textContent = "Humidity " + data.main.humidity + "%";
+    humidityEl.textContent = "Humidity: " + data.main.humidity + "%";
     weatherToday.append(humidityEl);
-    realFeelEl.textContent = "Real Feel " + data.main.feels_like;
+    realFeelEl.textContent = "Real Feel: " + data.main.feels_like;
     weatherToday.append(realFeelEl);
-    windEl.textContent = "Wind Speed " + data.wind.speed;
+    windEl.textContent = "Wind Speed: " + data.wind.speed;
     weatherToday.append(windEl);
-
 
     var lat = data.coord.lat;
     var lon = data.coord.lon;
+    
+    var uvURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=b9e68eb5875c33cf7f524dde6562b60d"
+    fetch(uvURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      
+      var uvIndex = data.value;
+      // console.log(uvIndex);
+      uvEl.textContent = "UV Index: " + uvIndex;
+      weatherToday.append(uvEl);
+  
+      if (uvIndex <= 2) {
+        //set low
+        uvEl.setAttribute("style", "color: green;")
+      } else if (uvIndex > 2 && uvIndex < 5) {
+        //set moderate
+        uvEl.setAttribute("style", "color: yellow;")
+      } else if (uvIndex >= 5 && uvIndex < 8) {
+        //set high
+        uvEl.setAttribute("style", "color: orange;")
+      } else if (uvIndex >= 8) {
+        // set extreme
+        uvEl.setAttribute("style", "color: red;")
+      }
+    });
+
+      var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&exclude=hourly,minutely&units=imperial&appid=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
+      fetch(fiveDayURL)
+      .then(function (response) {
+      return response.json();
+      })
+      .then(function (data) {
+      console.log(data);
+
+      for (var i = 0; i < 6; i++) {
+        
+      }
 
 
 
 
 
 
-
+        });
   });
 };
 // renderWeather();
