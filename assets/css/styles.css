@@ -1,7 +1,16 @@
 body {
-  background-color: rgba(245, 245, 245, 0.767);
+  background-image: url("/assets/img/background2.jpg");
 }
 
 nav {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.cardSize {
+  margin-left: 2px;
+}
+
+.card-img-top {
+  width: 100px;
+  height: 100px;
 }

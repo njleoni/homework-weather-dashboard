@@ -111,10 +111,10 @@ fetch(weatherURL)
 
       for (var i = 1; i < 6; i++) {
         var cardOutline = document.createElement("div");
-        cardOutline.classList = "col-lg-3";
+        cardOutline.classList = "col-mb-2";
         fiveDayCard.appendChild(cardOutline);
         var cardFrame = document.createElement("div");
-        cardFrame.classList = "card text-white bg-dark mb-3";
+        cardFrame.classList = "card border-dark mb-3 bg-transparent cardSize";
         // cardFrame.setAttribute("style", "width: 10rem;")
         // cardFrame.setAttribute("style", "margin: 1px")
         cardOutline.appendChild(cardFrame);
@@ -133,11 +133,11 @@ fetch(weatherURL)
         cardBody.appendChild(cardDate);
         
         //append temp to card
-        var cardTemp = document.createElement("p");
+        var cardTemp = document.createElement("h6");
         cardTemp.textContent = "Temp " + data.daily[i].temp.day;
         cardBody.appendChild(cardTemp);
         //append humidity to card
-        var cardHum = document.createElement("p");
+        var cardHum = document.createElement("h6");
         cardHum.textContent = "Humidity " + data.daily[i].humidity;
         cardBody.appendChild(cardHum);
         
