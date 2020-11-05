@@ -18,7 +18,7 @@ var cityRefresh = "";
 cityStorage();
 // getweather();
 
-// When form is submitted...
+// searches for city entered in search bar
 citySearch.addEventListener("click", function(event) {
   event.preventDefault();
   cityRefresh = cityInput.value.trim();
@@ -28,24 +28,23 @@ citySearch.addEventListener("click", function(event) {
   cityStorage();
 });
 
-// When form is submitted...
+//to search stored cities
 if (localStorage.getItem("cityStor") !== null) {
   cityList.addEventListener("click", function(event) {
     event.preventDefault();
-    console.log("clicked")
-  
+    cityRefresh = event.target.textContent;
+    getweather();
   });
 
 } 
 
-
 if (localStorage.getItem("cityStor") !== null) {
     cityArray = JSON.parse(localStorage.getItem("cityStor"));
-    cityRefresh = cityArray[cityArray.length-1];
-    // console.log(cityRefresh);
     localStorage.setItem("cityStor", JSON.stringify(cityArray))
+    cityRefresh = cityArray[cityArray.length-1];
     getweather();
 } 
+
 
 function getweather() {
 var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityRefresh + "&APPID=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
@@ -155,7 +154,7 @@ function cityStorage() {
     for (var c = 0; c < cityOb.length; c++) {
       var button = document.createElement('button');
       button.textContent = cityOb[c];
-      button.classList = 'btn btn-outline-secondary btn-block btn-lg)';
+      button.classList = 'btn btn-outline-secondary btn-block btn-lg';
       button.type = 'button';
       button.id = 'button-city';
       button.setAttribute('data-index', c);     
