@@ -12,31 +12,50 @@ var humidityEl = document.createElement('h4');
 var realFeelEl = document.createElement('h4');
 var windEl = document.createElement('h4');
 var uvEl = document.createElement('h4');
-var cities = [];
+var cityArray = [];
+var cityRefresh = "";
 
-// localStorage.setItem("cityStor",JSON.stringify(cities))
+cityStorage();
+// getweather();
 
 // When form is submitted...
 citySearch.addEventListener("click", function(event) {
   event.preventDefault();
-  var cityText = cityInput.value.trim();
-  cities.push(cityText);
-  // cityInput.value = "";
-  getweather(cityText);
-  cityStorage (cityText);
-  renderCities();
+  cityRefresh = cityInput.value.trim();
+  cityArray.push(cityInput.value.trim());
+  localStorage.setItem("cityStor", JSON.stringify(cityArray))
+  getweather();
+  cityStorage();
 });
 
+// When form is submitted...
+if (localStorage.getItem("cityStor") !== null) {
+  cityList.addEventListener("click", function(event) {
+    event.preventDefault();
+    console.log("clicked")
+  
+  });
 
-function getweather(cityText) {
-var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityText + "&APPID=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
+} 
+
+
+if (localStorage.getItem("cityStor") !== null) {
+    cityArray = JSON.parse(localStorage.getItem("cityStor"));
+    cityRefresh = cityArray[cityArray.length-1];
+    // console.log(cityRefresh);
+    localStorage.setItem("cityStor", JSON.stringify(cityArray))
+    getweather();
+} 
+
+function getweather() {
+var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityRefresh + "&APPID=b9e68eb5875c33cf7f524dde6562b60d&units=imperial"
 fetch(weatherURL)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
-    weatherIcon.setAttribute("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
+    // console.log(data);
+    weatherIcon.setAttribute("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
     weatherIcon.setAttribute("style", "width: 80px")    
     var cityEl = data.name;
     var dateEl = new Date(data.dt * 1000).toLocaleString();
@@ -54,13 +73,13 @@ fetch(weatherURL)
     var lat = data.coord.lat;
     var lon = data.coord.lon;
     
-    var uvURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=b9e68eb5875c33cf7f524dde6562b60d"
+    var uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=b9e68eb5875c33cf7f524dde6562b60d"
     fetch(uvURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      // console.log(data);
       
       var uvIndex = data.value;
       // console.log(uvIndex);
@@ -88,7 +107,7 @@ fetch(weatherURL)
       return response.json();
       })
       .then(function (data) {
-      console.log(data);
+      // console.log(data);
       fiveDayCard.innerHTML = "";
 
       for (var i = 1; i < 6; i++) {
@@ -102,7 +121,7 @@ fetch(weatherURL)
         cardOutline.appendChild(cardFrame);
         var cardImage = document.createElement("img");
         cardImage.classList = "card-img-top";
-        cardImage.setAttribute("src", "http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png")
+        cardImage.setAttribute("src", "https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png")
         cardFrame.appendChild(cardImage);
         var cardBody = document.createElement("div");
         cardBody.classList = "card-body";
@@ -129,82 +148,20 @@ fetch(weatherURL)
   });
 };
 
-function renderCities() {
-  // Clear cityList element and update cityCountSpan
-  localStorage.setItem("cityStor",JSON.stringify(cities));
+function cityStorage() {
   cityList.innerHTML = "";
-  cityStorage();
-
-}
-      
-function cityStorage (cityText) {
-  // cityList.innerHTML = "";
-  var cityPush = JSON.parse(localStorage.getItem("cityStor"));
-        // console.log(cityPush);
+  cityOb = JSON.parse(localStorage.getItem("cityStor"));
   if (localStorage.getItem("cityStor") !== null) {
-    for (var c = 0; c < cityPush.length; c++) {
-      var city = cityPush[c];
-      // console.log(city);
+    for (var c = 0; c < cityOb.length; c++) {
       var button = document.createElement('button');
-      button.textContent = city;
+      button.textContent = cityOb[c];
       button.classList = 'btn btn-outline-secondary btn-block btn-lg)';
-      button.type = 'button text';
-      button.id = "button-city";
+      button.type = 'button';
+      button.id = 'button-city';
       button.setAttribute('data-index', c);     
       cityList.appendChild(button);
-      
-
-  } 
+    } 
       
   }
 }     
 
-// cityButton.addEventListener("click", function(event) {
-//   event.preventDefault();
-//   getweather(cityText);
-
-
-// });
-
-      
-      // When form is submitted...
-// citySearch.addEventListener("click", function(event) {
-//   event.preventDefault();
-//   console.log("clicked");
-  
-
-//   var cityText = cityInput.value.trim();
-//   // console.log(cityText);
-
-//   // Return from function early if submitted cityText is blank
-//   if (cityText === "") {
-//     return;
-//   }
-
-//   // Add new city to cities array, clear the input
-//   // cities.push(cityText);
-//   cities.push(cityText);
-//   cityInput.value = "";
-
-//   // Re-render the list
-//   renderCities();
-//   cityStorage();
-  
-// });
-
-// When a element inside of the cityList is clicked...
-//search for this city's weather again.
-// cityList.addEventListener("click", function(event) {
-//   var element = event.target.text;
-//   console.log(element);
-
-//   // // If that element is a button...
-//   // if (element.matches("button") === true) {
-//   //   // Get its data-index value and remove the city element from the list
-//   //   var index = element.parentElement.getAttribute("data-index");
-//   //   cities.splice(index, 1);
-
-//   //   // Re-render the list
-//     // renderCities();
-//   // }
-// });
