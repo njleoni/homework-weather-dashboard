@@ -114,7 +114,7 @@ fetch(weatherURL)
         cardOutline.classList = "col-mb-2";
         fiveDayCard.appendChild(cardOutline);
         var cardFrame = document.createElement("div");
-        cardFrame.classList = "card text-white bg-secondary mb-3 cardSize";
+        cardFrame.classList = "card border-dark mb-3 bg-transparent cardSize";
         // cardFrame.setAttribute("style", "width: 10rem;")
         // cardFrame.setAttribute("style", "margin: 1px")
         cardOutline.appendChild(cardFrame);
