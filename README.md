@@ -15,3 +15,5 @@ https://njleoni.github.io/homework-weather-dashboard/
 https://github.com/njleoni/homework-weather-dashboard
 
 ## Screenshot
+
+![Screenshot](/assets/img/weather.png)
