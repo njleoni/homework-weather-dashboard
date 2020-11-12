@@ -154,7 +154,7 @@ function cityStorage() {
     for (var c = 0; c < cityOb.length; c++) {
       var button = document.createElement('button');
       button.textContent = cityOb[c];
-      button.classList = 'btn btn-outline-secondary btn-block btn-lg';
+      button.classList = 'btn btn-outline-dark btn-block btn-lg';
       button.type = 'button';
       button.id = 'button-city';
       button.setAttribute('data-index', c);     

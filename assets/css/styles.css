@@ -1,5 +1,6 @@
 body {
-  background-image: url("/assets/img/background2.jpg");
+  background-image: url("https://images.unsplash.com/photo-1445498059992-f5a276e1218d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80");
+  background-size: cover;
 }
 
 nav {
